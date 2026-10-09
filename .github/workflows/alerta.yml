@@ -1,1 +1,24 @@
+name: Alerta de cambios
 
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  notificacion:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar codigo
+        uses: actions/checkout@v4
+
+      - name: Ejecutar Hola Mundo
+        run: node hola.js
+
+      - name: Enviar notificacion
+        run: |
+          curl -H "Title: Nuevo codigo en GitHub" \
+               -H "Tags: computer" \
+               -d "Se ha subido codigo a la rama main del repositorio ${{ github.repository }}. Autor: ${{ github.actor }}. Commit: ${{ github.sha }}" \
+               https://ntfy.sh/devops-itla
